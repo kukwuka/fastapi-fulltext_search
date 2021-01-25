@@ -14,6 +14,8 @@ class TextBase(BaseModel):
 class TextList(TextBase):
     id: int
 
+class TextDetail(TextBase):
+    id:int
 
 class TextCreate(TextBase):
     pass
