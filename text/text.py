@@ -41,8 +41,6 @@ async def upload_csv(file: UploadFile = File(...)):
 async def delete_text_request(text_id: int):
     """Delete with id"""
     deleted_text = await delete_text(text_id)
-    if deleted_text is None:
-        raise HTTPException(status_code=418, detail="couldn't find text")
     return deleted_text
 
 
@@ -50,6 +48,4 @@ async def delete_text_request(text_id: int):
 async def get_text(text_id: int):
     """Find text with id"""
     finded_text = await find_text(text_id)
-    if finded_text is None:
-        raise HTTPException(status_code=418, detail="couldn't find text")
     return finded_text

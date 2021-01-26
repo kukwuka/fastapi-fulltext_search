@@ -13,7 +13,8 @@ from .schemas import TextCreate
 
 
 async def get_text_list():
-    query = texts.select().limit(20)
+    query = texts.select()
+    print(query)
     query_fetch = await database.fetch_all(query=query)
     return [dict(result) for result in query_fetch]
 
@@ -34,7 +35,7 @@ def serch_text(search_text: str, db: Session):
 async def save_and_import_csv_data(file: UploadFile) -> List:
     file_is_csv = Path(file.filename).suffix == '.csv'
     if not file_is_csv:
-        raise HTTPException(status_code=418, detail="couldn't find text")
+        raise HTTPException(status_code=418, detail="please send .csv file")
 
     content = await file.read()
     with open(f'upload/{file.filename}', "wb") as buffer:
@@ -57,16 +58,15 @@ async def save_and_import_csv_data(file: UploadFile) -> List:
                 create_line_db_query_fetch_and_id = await database.execute(create_line_db_query)
                 created_text_id.append(create_line_db_query_fetch_and_id)
         except Exception:
-            raise HTTPException(status_code=418, detail="couldn't find text")
+            raise HTTPException(status_code=418, detail="something wrong in file, please check file")
     return created_text_id
 
 
 async def delete_text(text_id: int):
     find_query = texts.select().where(texts.c.id == text_id)
     find_query_fetch = await database.fetch_one(query=find_query)
-    print(find_query_fetch)
     if find_query_fetch is None:
-        return None
+        raise HTTPException(status_code=418, detail="couldn't find text")
     delete_query = texts.delete().where(texts.c.id == text_id)
     delete_query_fetch = await database.execute(delete_query)
     return {**find_query_fetch}
@@ -76,5 +76,5 @@ async def find_text(text_id: int):
     find_query = texts.select().where(texts.c.id == text_id)
     find_query_fetch = await database.fetch_one(query=find_query)
     if find_query_fetch is None:
-        return None
+        raise HTTPException(status_code=418, detail="couldn't find text")
     return {**find_query_fetch}
