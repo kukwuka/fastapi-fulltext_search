@@ -5,10 +5,24 @@ from starlette.responses import Response
 from core.db import SessionLocal
 from routes import routes
 from core.db import database
-from core.db import Base
 
+tags_metadata = [
+    {
+        "name": "Prepare data",
+        "description": "Operations with text , which can prepare your db for search",
+    },
+    {
+        "name": "Task",
+        "description": "Required methods",
+    },
+]
 
-app = FastAPI()
+app = FastAPI(redoc_url='/redocs',
+              title="Test",
+              description="This is a test project, with auto docs for the API and everything",
+              version="1.0.0",
+              openapi_tags=tags_metadata
+              )
 
 
 @app.on_event("startup")
@@ -19,6 +33,7 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
+
 
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):

@@ -10,8 +10,8 @@ class Text(Base):
     __tablename__ = 'text'
 
     id = Column(Integer, primary_key=True)
-    date = Column(DateTime(timezone=False))
-    rubricks = Column(UnicodeText)
+    created_date = Column(DateTime(timezone=True))
+    rubrics = Column(UnicodeText)
     text = Column(UnicodeText)
     search_vector = Column(TSVectorType('text'))
 

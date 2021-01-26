@@ -1,14 +1,18 @@
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import DeclarativeMeta, declarative_base
-from sqlalchemy.orm import  configure_mappers, sessionmaker
+from sqlalchemy.orm import configure_mappers, sessionmaker
 from sqlalchemy_searchable import make_searchable
 from databases import Database
-
+import os
 
 import sqlalchemy as sa
 
-
-SQLALCHEMY_DATABASE_URL = "postgresql://postgres:yunis@localhost/fulltext"
+load_dotenv()
+SQLALCHEMY_DATABASE_URL = f'postgres://{os.environ.get("POSTGRES_USER")}:' \
+                          f'{os.environ.get("POSTGRES_PASSWORD")}@' \
+                          f'{os.environ.get("POSTGRES_HOST")}/' \
+                          f'{os.environ.get("POSTGRES_DB")}'
 
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 

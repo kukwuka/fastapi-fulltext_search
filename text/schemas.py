@@ -3,8 +3,8 @@ from datetime import datetime
 
 
 class TextBase(BaseModel):
-    date: datetime
-    rubricks: str
+    created_date: datetime
+    rubrics: str
     text: str
 
     class Config:
@@ -14,8 +14,10 @@ class TextBase(BaseModel):
 class TextList(TextBase):
     id: int
 
+
 class TextDetail(TextBase):
-    id:int
+    id: int
+
 
 class TextCreate(TextBase):
     pass
