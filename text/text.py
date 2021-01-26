@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from typing import List
 
 from core.utils import get_db
-from .services import get_text_list, create_text, serch_text, import_data_from_csv_to_postgres, delete_text, find_text
+from .services import get_text_list, create_text, serch_text, save_and_import_csv_data, delete_text, find_text
 from .schemas import TextList, TextCreate, TextDetail
 
 router = APIRouter()
@@ -33,7 +33,7 @@ def serch_text_request(search_text: str, db: Session = Depends(get_db)):
 @router.post("/csv", status_code=201, tags=["Prepare data"])
 async def upload_csv(file: UploadFile = File(...)):
     print(file)
-    texts_ids = await import_data_from_csv_to_postgres(file)
+    texts_ids = await save_and_import_csv_data(file)
     return {"file_name": texts_ids}
 
 

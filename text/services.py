@@ -31,7 +31,7 @@ def serch_text(search_text: str, db: Session):
     return get_query
 
 
-async def import_data_from_csv_to_postgres(file: UploadFile) -> List:
+async def save_and_import_csv_data(file: UploadFile) -> List:
     file_is_csv = Path(file.filename).suffix == '.csv'
     if not file_is_csv:
         raise HTTPException(status_code=418, detail="couldn't find text")
