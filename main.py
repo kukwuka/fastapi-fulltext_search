@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from starlette.requests import Request
 from starlette.responses import Response
+import os
+import uvicorn
+import requests
 
-from core.db import SessionLocal
+from core.db import SessionLocal, database
 from routes import routes
-from core.db import database
 
+a = os.environ
 tags_metadata = [
     {
         "name": "Prepare data",
@@ -28,6 +31,7 @@ app = FastAPI(redoc_url='/redocs',
 @app.on_event("startup")
 async def startup():
     await database.connect()
+    print("req.status_code")
 
 
 @app.on_event("shutdown")
@@ -46,4 +50,12 @@ async def db_session_middleware(request: Request, call_next):
     return response
 
 
+@app.get('/')
+def get_main():
+    return {'test': 'test'}
+
+
 app.include_router(routes)
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)

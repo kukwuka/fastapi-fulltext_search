@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 
-from text import text 
+
+from text import text
 
 routes = APIRouter()
 

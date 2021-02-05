@@ -9,7 +9,8 @@ import os
 import sqlalchemy as sa
 
 load_dotenv()
-SQLALCHEMY_DATABASE_URL = f'postgres://{os.environ.get("POSTGRES_USER")}:' \
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_DATABASE_URL = f'postgresql://{os.environ.get("POSTGRES_USER")}:' \
                           f'{os.environ.get("POSTGRES_PASSWORD")}@' \
                           f'{os.environ.get("POSTGRES_HOST")}/' \
                           f'{os.environ.get("POSTGRES_DB")}'

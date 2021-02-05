@@ -1,5 +1,4 @@
 import csv
-from core.db import database
 from datetime import datetime
 from sqlalchemy_searchable import search
 from sqlalchemy.orm import Session
@@ -8,6 +7,8 @@ from fastapi import HTTPException
 from pathlib import Path
 from fastapi import UploadFile
 
+# from core.db import database
+from core.db import database
 from .models import Text, texts
 from .schemas import TextCreate
 
@@ -32,10 +33,10 @@ def serch_text(search_text: str, db: Session):
     return get_query
 
 
-async def save_and_import_csv_data(file: UploadFile) -> List:
+async def save_and_import_csv_data(file: UploadFile):
     file_is_csv = Path(file.filename).suffix == '.csv'
-    if not file_is_csv:
-        raise HTTPException(status_code=418, detail="please send .csv file")
+    # if not file_is_csv:
+    #     raise HTTPException(status_code=418, detail="please send .csv file")
 
     content = await file.read()
     with open(f'upload/{file.filename}', "wb") as buffer:
