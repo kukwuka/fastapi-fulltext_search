@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: route_admin
+      POSTGRES_USER: route_admin
+    expose:
+      - "5433" # Publishes 5433 to other containers but NOT to host machine
+    ports:
+      - "5433:5433"
+    command: -p 5433
+
+  textsearch:
+    build: ./
+    command: uvicorn main:app --host 0.0.0.0
+    env_file:
+      - ./.env.dev
+    expose:
+      - "8000" # Publishes 5433 to other containers but NOT to host machine
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
