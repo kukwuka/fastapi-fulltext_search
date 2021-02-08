@@ -10,7 +10,11 @@ import sqlalchemy as sa
 
 load_dotenv()
 SQLALCHEMY_TRACK_MODIFICATIONS = False
-SQLALCHEMY_DATABASE_URL =  "postgresql://route_admin:route_admin@localhost:5433/postgres"
+SQLALCHEMY_DATABASE_URL = f'postgresql://{os.environ.get("POSTGRES_USER")}:' \
+                          f'{os.environ.get("POSTGRES_PASSWORD")}@' \
+                          f'{os.environ.get("POSTGRES_HOST")}:' \
+                          f'{os.environ.get("POSTGRES_PORT")}/' \
+                          f'{os.environ.get("POSTGRES_DB")}'
 print(SQLALCHEMY_DATABASE_URL)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
